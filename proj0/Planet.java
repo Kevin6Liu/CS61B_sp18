@@ -7,8 +7,8 @@ public class Planet{
 	public String imgFileName;
 	static final double Grav_cons = 6.67e-11;
 	public Planet(double xP, double yP,
-								double xV, double yV,
-								double m, String img){
+				  double xV, double yV,
+				  double m, String img){
 					xxPos = xP;
 					yyPos = yP;
 					xxVel = xV;
