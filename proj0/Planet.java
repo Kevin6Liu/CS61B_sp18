@@ -5,7 +5,7 @@ public class Planet{
 	public double yyVel;  // Its current velocity in the y direction
 	public double mass;  // Its mass
 	public String imgFileName;
-	static final double Grav_cons = 6.67e-11; //Use 'static final' to declare variables like "G" 
+	private static final double Grav_cons = 6.67e-11; //Use 'static final' to declare variables like "G" 
 	public Planet(double xP, double yP,
 								double xV, double yV,
 								double m, String img){
