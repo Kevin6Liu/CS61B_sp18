@@ -48,7 +48,7 @@ public class NBody{
 		}
 	}
 
-	public static void drawBackground(String filename, double u_radius){
+	private static void drawBackground(String filename, double u_radius){
 		StdDraw.setScale(-u_radius,u_radius);
 		StdDraw.picture(0,0,filename);
 		//StdDraw.show();
