@@ -132,32 +132,5 @@ public class ArrayDeque {
             return a[i + nextFirst + 1];
         }
     }
-    public static void main(String[] args){
-        ArrayDeque a = new ArrayDeque();
-        a.addFirst(3);
-        a.addFirst(2);
-        a.addFirst(1);
-        a.addLast(4);
-        a.addLast(5);
-        a.addLast(6);
-        a.addLast(7);
-        a.addLast(8);
-        a.addLast(9);
-        a.addLast(10);
-        a.printDeque();
-        System.out.println(a.getLast());
-        System.out.println(a.get(0));
-        System.out.println(a.get(8));
-        System.out.println(a.size());
-        a.removeLast();
-        a.removeLast();
-        a.removeFirst();
-        a.removeFirst();
-        a.removeFirst();
-        a.removeFirst();
-        a.removeFirst();
-        a.removeLast();
-        a.printDeque();
 
-    }
 }
