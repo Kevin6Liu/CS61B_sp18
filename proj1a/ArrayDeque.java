@@ -3,15 +3,15 @@
 1. The last item is always a[nextLast - 1]
 2. The first item is always a[nextFirst + 1]
  */
-public class ArrayDeque {
-    private int[] a;
+public class ArrayDeque<T> {
+    private T[] a;
     private int size = 0;
     private int nextFirst = 4;
     private int nextLast = 5;
     private int factor = 2;
     /** Creates an empty list. */
     public ArrayDeque() {
-        a = new int[8];
+        a = (T[])new Object[8];
     }
 
     /** Increase the volume of the original array
@@ -19,7 +19,7 @@ public class ArrayDeque {
      * @param capacity : the expanded length of array
      */
     private void resize(int capacity){
-        int[] b = new int[capacity];
+        T[] b = (T[])new Object[capacity];
         System.arraycopy(a,nextFirst + 1,b,0,a.length - nextFirst - 1);
         if(nextFirst != 0){
             System.arraycopy(a,0,b,a.length - nextFirst - 1, nextLast);
@@ -44,7 +44,7 @@ public class ArrayDeque {
 
     }
     /** Inserts X into the back of the list. */
-    public void addLast(int x) {
+    public void addLast(T x) {
         a[nextLast] = x;
         size += 1;
         if(nextLast == a.length - 1){
@@ -60,7 +60,7 @@ public class ArrayDeque {
     }
 
     /** Returns the item from the back of the list. */
-    public int getLast() {
+    public T getLast() {
 
         return a[nextLast - 1];
     }
@@ -96,7 +96,7 @@ public class ArrayDeque {
     /** Removes and returns the item at the front of the deque.
      * if no such item exists, return null
      */
-    public int removeFirst(){
+    public T removeFirst(){
         if(nextFirst == a.length - 1){
             nextFirst = -1;
         }
@@ -107,7 +107,7 @@ public class ArrayDeque {
     }
     /** Deletes item from back of the list and
      * returns deleted item. */
-    public int removeLast() {
+    public T removeLast() {
         if(nextLast == 0){
             nextLast = a.length;
         }
@@ -121,12 +121,12 @@ public class ArrayDeque {
      * @param i
      * @return i th item
      */
-    public int get(int i) {
+    public T get(int i) {
         if(i + nextFirst + 1 >= a.length){
             return a[i + nextFirst + 1 - a.length];
         }
         else if(i >= size){
-            return 0;
+            return null;
         }
         else{
             return a[i + nextFirst + 1];
