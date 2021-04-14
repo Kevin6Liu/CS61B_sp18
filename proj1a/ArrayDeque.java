@@ -30,7 +30,7 @@ public class ArrayDeque<T> {
 
     }
 
-    public void addFirst(int x){
+    public void addFirst(T x){
         a[nextFirst] = x;
         size += 1;
         if(nextFirst == 0){
