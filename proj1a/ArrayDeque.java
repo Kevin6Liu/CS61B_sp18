@@ -11,18 +11,28 @@ public class ArrayDeque<T> {
     private int factor = 2;
     /** Creates an empty list. */
     public ArrayDeque() {
-        a = (T[])new Object[8];
+        a = (T[]) new Object[8];
+    }
+
+    /** Move the indexes forward/backward
+     * @source Got inspired from 
+     * https://github.com/yiyikkk/cs61b-spring18/blob/master/proj1a */
+    private int addOne(int x) {
+        return (x + 1) % a.length;
+    }
+    private int subOne(int x) {
+        return (x - 1 + a.length) % a.length;
     }
 
     /** Increase the volume of the original array
      *
      * @param capacity : the expanded length of array
      */
-    private void resize(int capacity){
-        T[] b = (T[])new Object[capacity];
-        System.arraycopy(a,nextFirst + 1,b,0,a.length - nextFirst - 1);
+    private void resize(int capacity) {
+        T[] b = (T[]) new Object[capacity];
+        System.arraycopy(a, nextFirst + 1, b, 0, a.length - nextFirst - 1);
         if(nextFirst != 0){
-            System.arraycopy(a,0,b,a.length - nextFirst - 1, nextLast);
+            System.arraycopy(a, 0, b, a.length - nextFirst - 1, nextLast);
         }
         nextLast = a.length;
         a = b;
@@ -30,32 +40,24 @@ public class ArrayDeque<T> {
 
     }
 
-    public void addFirst(T x){
-        a[nextFirst] = x;
-        size += 1;
-        if(nextFirst == 0){
-            nextFirst = a.length;
-        }
-        nextFirst -= 1;
+    public void addFirst(T x) {
         if(size == a.length){
             resize(size * factor);
         }
-
-
+        a[nextFirst] = x;
+        size += 1;
+        nextFirst = subOne(nextFirst);
     }
     /** Inserts X into the back of the list. */
     public void addLast(T x) {
-        a[nextLast] = x;
-        size += 1;
-        if(nextLast == a.length - 1){
-            nextLast = -1;
-        }
-        nextLast += 1;
         if(size == a.length){
             resize(size * factor);
         }
+        a[nextLast] = x;
+        size += 1;
+        nextLast = addOne(nextLast);
     }
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return (size == 0);
     }
 
@@ -72,47 +74,49 @@ public class ArrayDeque<T> {
     }
 
     /** Prints the items in the deque from first to last
-     * seperated by a space.
+     * separated by a space.w
      */
-    public void printDeque(){
+    public void printDeque() {
         System.out.print("The items in the deque are: [ ");
-        if(nextFirst < nextLast){
-            for(int i = nextFirst +1; i < nextLast; i++){
+        int i = addOne(nextFirst);
+        for(int j = 0; j < size; j++){  // use j to count the number of printed items
                 System.out.print(a[i]+" ");
-            }
+                i = addOne(i); // only addOne(i) won't change the value of i
         }
-        else{
-            for(int i = nextFirst + 1; i < a.length; i++){
-                System.out.print(a[i]+" ");
-            }
-            for(int j = 0; j < nextLast; j++ ){
-                System.out.print(a[j]+" ");
-            }
-        }
-
-            System.out.print("]");
+        System.out.print("]");
     }
+
+
+
+
 
     /** Removes and returns the item at the front of the deque.
      * if no such item exists, return null
      */
     public T removeFirst(){
-        if(nextFirst == a.length - 1){
-            nextFirst = -1;
+        if(size == 0){
+            return null;
         }
-        nextFirst += 1;
+        nextFirst = addOne(nextFirst);
         size -= 1;
+        if(4 * size < a.length){
+            resize(a.length/factor);
+        }
         return a[nextFirst];
+
 
     }
     /** Deletes item from back of the list and
      * returns deleted item. */
     public T removeLast() {
-        if(nextLast == 0){
-            nextLast = a.length;
+        if(size == 0){
+            return null;
         }
-        nextLast -= 1;
+        nextLast = subOne(nextLast);
         size -= 1;
+        if(4 * size < a.length){
+            resize(a.length/factor);
+        }
         return a[nextLast];
     }
 
@@ -122,15 +126,11 @@ public class ArrayDeque<T> {
      * @return i th item
      */
     public T get(int i) {
-        if(i + nextFirst + 1 >= a.length){
-            return a[i + nextFirst + 1 - a.length];
-        }
-        else if(i >= size){
+        if(i >= size){
             return null;
         }
-        else{
-            return a[i + nextFirst + 1];
-        }
+       return a[(i + addOne(nextFirst)) % a.length];
     }
+
 
 }
