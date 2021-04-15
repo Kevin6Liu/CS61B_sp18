@@ -30,7 +30,11 @@ public class ArrayDeque<T> {
      */
     private void resize(int capacity) {
         T[] b = (T[]) new Object[capacity];
-        System.arraycopy(a, addOne(nextFirst), b, 0, size);
+        int oldindex = addOne(nextFirst);
+        for(int j = 0; j < size; j++){
+            b[j] = a[oldindex];
+            oldindex = addOne(oldindex);
+        }
         nextLast = size; // not a.length
         a = b;
         nextFirst = a.length - 1;
