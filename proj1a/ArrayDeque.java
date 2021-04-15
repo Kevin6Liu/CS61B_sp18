@@ -5,13 +5,16 @@
  */
 public class ArrayDeque<T> {
     private T[] a;
-    private int size = 0;
-    private int nextFirst = 4;
-    private int nextLast = 5;
+    private int size;
+    private int nextFirst;
+    private int nextLast;
     private int factor = 2;
     /** Creates an empty list. */
     public ArrayDeque() {
         a = (T[]) new Object[8];
+        size = 0;
+        nextFirst = 0;
+        nextLast = 1;
     }
 
     /** Move the indexes forward/backward
@@ -36,7 +39,7 @@ public class ArrayDeque<T> {
             oldindex = addOne(oldindex);
         }
         nextLast = size; // not a.length
-        a = b;
+        this.a = b;
         nextFirst = a.length - 1;
     }
 
@@ -58,16 +61,8 @@ public class ArrayDeque<T> {
         nextLast = addOne(nextLast);
     }
     public boolean isEmpty() {
-        return (size == 0);
+        return size == 0;
     }
-
-    /** Returns the item from the back of the list. */
-    public T getLast() {
-
-        return a[nextLast - 1];
-    }
-
-
     /** Returns the number of items in the list. */
     public int size() {
         return size;
@@ -97,12 +92,14 @@ public class ArrayDeque<T> {
         if(size == 0){
             return null;
         }
+        T b = a[addOne(nextFirst)];
+        a[addOne(nextFirst)] = null;
         nextFirst = addOne(nextFirst);
         size -= 1;
-        if(4 * size < a.length){
+        if(a.length >= 16 && (4 * size) < a.length){
             resize(a.length/factor);
         }
-        return a[nextFirst];
+        return b;
 
 
     }
@@ -112,12 +109,14 @@ public class ArrayDeque<T> {
         if(size == 0){
             return null;
         }
+        T b = a[subOne(nextLast)];
+        a[subOne(nextLast)] = null;
         nextLast = subOne(nextLast);
         size -= 1;
-        if(4 * size < a.length){
+        if(a.length >= 16 && (4 * size) < a.length){
             resize(a.length/factor);
         }
-        return a[nextLast];
+        return b;
     }
 
     /** Gets the item at the given index, where 0 is the front
